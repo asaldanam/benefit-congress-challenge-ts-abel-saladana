@@ -1,1 +1,0 @@
-{"version":3,"file":"DomainException.js","sourceRoot":"","sources":["../../../../src/core/@shared/domain/DomainException.ts"],"names":[],"mappings":";;;AAAA,MAAa,eAAgB,SAAQ,KAAK;IACtC,YAAY,OAAe,EAAW,KAA2B;QAC7D,KAAK,CAAC,OAAO,CAAC,CAAC;QADmB,UAAK,GAAL,KAAK,CAAsB;QAE7D,IAAI,CAAC,IAAI,GAAG,iBAAiB,CAAC;IAClC,CAAC;CACJ;AALD,0CAKC"}
