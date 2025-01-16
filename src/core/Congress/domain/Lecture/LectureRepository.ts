@@ -1,6 +1,7 @@
-import { Lecture, LecturePrimitives } from './Lecture';
+import { Lecture } from './Lecture';
+import { LectureCriteria } from './LectureCriteria';
 
 export interface LectureRepository {
-    findByCriteria(criteria?: Pick<LecturePrimitives, 'day'>): Promise<Lecture[]>;
+    findByCriteria(criteria?: LectureCriteria): Promise<Lecture[]>;
     save(lecture: Lecture): Promise<Lecture>;
 }

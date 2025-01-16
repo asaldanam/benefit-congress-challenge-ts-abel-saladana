@@ -1,12 +1,12 @@
 import { Uuid } from '../../../@shared/domain';
 
-import { Lecture, LecturePrimitives } from '../../domain/Lecture';
+import { Lecture, LectureCriteria } from '../../domain/Lecture';
 import { LectureRepository } from '../../domain/Lecture/LectureRepository';
 
 export class MemoryLectureRepository implements LectureRepository {
     private db = new Map<Uuid, Lecture>();
 
-    async findByCriteria(criteria?: Pick<LecturePrimitives, 'day'>): Promise<Lecture[]> {
+    async findByCriteria(criteria?: LectureCriteria): Promise<Lecture[]> {
         const all = Array.from(this.db.values());
 
         if (criteria?.day) all.filter((lecture) => lecture.day === criteria.day);

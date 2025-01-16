@@ -1,9 +1,10 @@
 import { Express } from 'express';
 import * as http from 'http';
+import * as request from 'supertest';
 
 import { createServer } from '../../server';
 
-export default class TestServer {
+export class TestServer {
     readonly server: http.Server;
     readonly app: Express;
 
@@ -17,5 +18,7 @@ export default class TestServer {
         this.app = app;
     }
 
-    request() {}
+    request() {
+        return request(this.app);
+    }
 }

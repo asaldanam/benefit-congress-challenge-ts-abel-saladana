@@ -1,4 +1,4 @@
-import { Lecture, LectureRepository, LectureSlotFinder } from '../../../domain/Lecture';
+import { Lecture, LecturePayload, LectureRepository, LectureSlotFinder } from '../../../domain/Lecture';
 
 export class LectureCreator {
     constructor(
@@ -7,7 +7,7 @@ export class LectureCreator {
         }
     ) {}
 
-    async create(payload: Omit<Lecture, 'room' | 'startAt'>): Promise<Lecture> {
+    async create(payload: LecturePayload): Promise<Lecture> {
         const { lectureRepository } = this.deps;
 
         const lectureService = new LectureSlotFinder({ lectureRepository });
