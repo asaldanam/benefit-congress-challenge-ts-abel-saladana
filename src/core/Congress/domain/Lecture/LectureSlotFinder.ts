@@ -6,7 +6,7 @@ type Slot = Pick<Lecture, 'startAt' | 'room'>;
 const msInMinute = 60_000;
 
 export class LectureSlotFinder {
-    timeslots: { [D in LecturePrimitives['day']]: { starts: number; ends: number } } = {
+    readonly timeslots: { [D in LecturePrimitives['day']]: { starts: number; ends: number } } = {
         firstDay: {
             starts: new Date().setHours(10, 0),
             ends: new Date().setHours(18, 0)

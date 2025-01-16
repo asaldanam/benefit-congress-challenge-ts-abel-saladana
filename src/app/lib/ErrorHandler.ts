@@ -1,9 +1,8 @@
 import { DomainException } from '../../core/@shared/domain';
+import { Response } from 'express';
 
 export default class ErrorHandler {
-    constructor(private res: any) {
-        this.res = res;
-    }
+    constructor(private res: Response) {}
 
     public handle(error: Error) {
         if (error instanceof DomainException) {

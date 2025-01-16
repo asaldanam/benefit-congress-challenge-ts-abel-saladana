@@ -5,7 +5,7 @@ import { LectureFinder } from '../../../core/Congress/application/Lecture/Find/L
 import controller from './controller';
 
 export default class LecturesRoutes {
-    path = '/lectures';
+    readonly path = '/lectures';
     constructor(private app: Express) {}
 
     public load() {

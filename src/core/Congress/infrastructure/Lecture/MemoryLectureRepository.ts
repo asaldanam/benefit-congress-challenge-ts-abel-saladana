@@ -4,7 +4,7 @@ import { Lecture, LecturePrimitives } from '../../domain/Lecture';
 import { LectureRepository } from '../../domain/Lecture/LectureRepository';
 
 export class MemoryLectureRepository implements LectureRepository {
-    db = new Map<Uuid, Lecture>();
+    private db = new Map<Uuid, Lecture>();
 
     async findByCriteria(criteria?: Pick<LecturePrimitives, 'day'>): Promise<Lecture[]> {
         const all = Array.from(this.db.values());

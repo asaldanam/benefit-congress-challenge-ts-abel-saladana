@@ -3,6 +3,11 @@ import * as request from 'supertest';
 
 import { createServer } from './server';
 
+/**
+ * Legacy Test, just for reference and interview purposes
+ * Refactored test in .e2e/Congress/Congress.spec.ts
+ */
+
 describe('Lectures Management', () => {
     let server;
     let app;
