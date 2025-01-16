@@ -7,7 +7,7 @@ export class LectureCreator {
         }
     ) {}
 
-    async save(payload: Omit<Lecture, 'room' | 'startAt'>): Promise<Lecture> {
+    async create(payload: Omit<Lecture, 'room' | 'startAt'>): Promise<Lecture> {
         const { lectureRepository } = this.deps;
 
         const lectureService = new LectureSlotFinder({ lectureRepository });

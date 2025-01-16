@@ -1,4 +1,4 @@
-import { Entity, Uuid } from '../../../@shared/domain';
+import { DomainException, Entity, Uuid } from '../../../@shared/domain';
 
 export interface LecturePrimitives {
     id: Uuid;
@@ -29,12 +29,12 @@ export class Lecture extends Entity implements LecturePrimitives {
     }
 
     validate() {
-        if (!this.title) throw new Error('Title is required');
-        if (!this.description) throw new Error('Description is required');
-        if (!this.speakers || this.speakers.length === 0) throw new Error('At least one speaker is required');
-        if (!this.day) throw new Error('Day is required');
-        if (!this.duration) throw new Error('Duration is required');
-        if (!this.room) throw new Error('Room is required');
-        if (!this.startAt) throw new Error('StartAt is required');
+        if (!this.title) throw new DomainException('Title is required');
+        if (!this.description) throw new DomainException('Description is required');
+        if (!this.speakers || this.speakers.length === 0) throw new DomainException('At least one speaker is required');
+        if (!this.day) throw new DomainException('Day is required');
+        if (!this.duration) throw new DomainException('Duration is required');
+        if (!this.room) throw new DomainException('Room is required');
+        if (!this.startAt) throw new DomainException('StartAt is required');
     }
 }

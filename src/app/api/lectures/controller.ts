@@ -15,7 +15,7 @@ const GET = (useCases: { lectureFinder: LectureFinder }) => async (req: Request,
 
 const POST = (useCases: { lectureCreator: LectureCreator }) => async (req: Request, res: Response) => {
     try {
-        const lecture = await useCases.lectureCreator.save(req.body);
+        const lecture = await useCases.lectureCreator.create(req.body);
         res.status(201).json(lecture);
     } catch (error) {
         new ErrorHandler(res).handle(error);
