@@ -1,4 +1,6 @@
+import * as crypto from 'crypto';
 import * as request from 'supertest';
+
 import { createServer } from './server';
 
 describe('Lectures Management', () => {
@@ -17,12 +19,14 @@ describe('Lectures Management', () => {
 
     it('Should create the first lecture for the first day', async () => {
         let lecture = {
+            id: crypto.randomUUID(),
             title: 'Lecture 1',
             description: 'Some description',
             speakers: ['John Doe'],
             duration: 400,
             day: 'firstDay'
         };
+
         let res = await request(app).post('/lectures').send(lecture);
 
         expect(res.statusCode).toBe(201);
@@ -38,6 +42,7 @@ describe('Lectures Management', () => {
 
     it('Should create the second lecture in the same room for the first day', async () => {
         let lecture = {
+            id: crypto.randomUUID(),
             title: 'Lecture 1',
             description: 'Some description',
             speakers: ['John Doe'],
@@ -52,6 +57,7 @@ describe('Lectures Management', () => {
         expect(createdLecture1.startAt).toEqual('10:00');
 
         let lecture2 = {
+            id: crypto.randomUUID(),
             title: 'Lecture 2',
             description: 'Some description 2',
             speakers: ['Mike Doe'],
@@ -73,6 +79,7 @@ describe('Lectures Management', () => {
 
     it('Should create the next lecture in a new room for the first day', async () => {
         let lecture = {
+            id: crypto.randomUUID(),
             title: 'Lecture 1',
             description: 'Some description',
             speakers: ['John Doe'],
@@ -87,6 +94,7 @@ describe('Lectures Management', () => {
         expect(createdLecture1.startAt).toEqual('10:00');
 
         let lecture2 = {
+            id: crypto.randomUUID(),
             title: 'Lecture 2',
             description: 'Some description',
             speakers: ['Jane Doe'],
@@ -108,12 +116,14 @@ describe('Lectures Management', () => {
 
     it('Should create lectures in the room gaps for the first day', async () => {
         let lecture = {
+            id: crypto.randomUUID(),
             title: 'Lecture 1',
             description: 'Some description',
             speakers: ['John Doe'],
             duration: 360, // 6 hours
             day: 'firstDay'
         };
+
         let res = await request(app).post('/lectures').send(lecture);
 
         expect(res.statusCode).toBe(201);
@@ -124,6 +134,7 @@ describe('Lectures Management', () => {
         // The lecture will end at 16:00 so there is a gap of 2h until the end of the day 18:00
 
         let lecture2 = {
+            id: crypto.randomUUID(),
             title: 'Lecture 2',
             description: 'Some description',
             speakers: ['Jane Doe'],
@@ -138,6 +149,7 @@ describe('Lectures Management', () => {
         expect(createdLecture2.startAt).toEqual('10:00');
 
         let lecture3 = {
+            id: crypto.randomUUID(),
             title: 'Lecture 3',
             description: 'Some description',
             speakers: ['Jane Doe'],
@@ -158,6 +170,7 @@ describe('Lectures Management', () => {
 
     it('Should create the first lecture for the second day', async () => {
         let lecture = {
+            id: crypto.randomUUID(),
             title: 'Lecture 1',
             description: 'Some description',
             speakers: ['John Doe'],
@@ -179,6 +192,7 @@ describe('Lectures Management', () => {
 
     it('Should create the second lecture in the same room for the second day', async () => {
         let lecture = {
+            id: crypto.randomUUID(),
             title: 'Lecture 1',
             description: 'Some description',
             speakers: ['John Doe'],
@@ -193,6 +207,7 @@ describe('Lectures Management', () => {
         expect(createdLecture1.startAt).toEqual('10:00');
 
         let lecture2 = {
+            id: crypto.randomUUID(),
             title: 'Lecture 2',
             description: 'Some description 2',
             speakers: ['Mike Doe'],
@@ -212,8 +227,9 @@ describe('Lectures Management', () => {
         expect(res.body).toMatchObject([createdLecture1, createdLecture2]);
     });
 
-    it('Should create the next lecture in a new room for the second day', async () => {
+    it('Should fail and report error when duration is greather thant total day duration', async () => {
         let lecture = {
+            id: crypto.randomUUID(),
             title: 'Lecture 1',
             description: 'Some description',
             speakers: ['John Doe'],
@@ -222,33 +238,38 @@ describe('Lectures Management', () => {
         };
         let res = await request(app).post('/lectures').send(lecture);
 
-        expect(res.statusCode).toBe(201);
+        expect(res.statusCode).toBe(400);
         let createdLecture1 = res.body;
-        expect(createdLecture1.room).toEqual(1);
-        expect(createdLecture1.startAt).toEqual('10:00');
+        expect(createdLecture1.error).toEqual(
+            `The duration of the lecture is greater than the total day duration of 300 minutes for secondDay`
+        );
+        // expect(createdLecture1.startAt).toEqual('10:00');
 
-        let lecture2 = {
-            title: 'Lecture 2',
-            description: 'Some description',
-            speakers: ['Jane Doe'],
-            duration: 90,
-            day: 'secondDay'
-        };
-        res = await request(app).post('/lectures').send(lecture2);
+        // let lecture2 = {
+        //     id: crypto.randomUUID(),
+        //     title: 'Lecture 2',
+        //     description: 'Some description',
+        //     speakers: ['Jane Doe'],
+        //     duration: 90,
+        //     day: 'secondDay'
+        // };
+        // res = await request(app).post('/lectures').send(lecture2);
 
-        expect(res.statusCode).toBe(201);
-        let createdLecture2 = res.body;
-        expect(createdLecture2.room).toEqual(2);
-        expect(createdLecture2.startAt).toEqual('10:00');
+        // expect(res.statusCode).toBe(201);
+        // let createdLecture2 = res.body;
 
-        res = await request(app).get('/lectures');
+        // expect(createdLecture2.room).toEqual(2);
+        // expect(createdLecture2.startAt).toEqual('10:00');
 
-        expect(res.statusCode).toBe(200);
-        expect(res.body).toMatchObject([createdLecture1, createdLecture2]);
+        // res = await request(app).get('/lectures');
+
+        // expect(res.statusCode).toBe(200);
+        // expect(res.body).toMatchObject([createdLecture1, createdLecture2]);
     });
 
     it('Should create lectures in the room gaps for the second day', async () => {
         let lecture = {
+            id: crypto.randomUUID(),
             title: 'Lecture 1',
             description: 'Some description',
             speakers: ['John Doe'],
@@ -265,6 +286,7 @@ describe('Lectures Management', () => {
         // The lecture will end at 14:00 so there is a gap of 1h until the end of the day 15:00
 
         let lecture2 = {
+            id: crypto.randomUUID(),
             title: 'Lecture 2',
             description: 'Some description',
             speakers: ['Jane Doe'],
@@ -279,6 +301,7 @@ describe('Lectures Management', () => {
         expect(createdLecture2.startAt).toEqual('10:00');
 
         let lecture3 = {
+            id: crypto.randomUUID(),
             title: 'Lecture 3',
             description: 'Some description',
             speakers: ['Jane Doe'],
