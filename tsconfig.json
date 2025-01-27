@@ -7,9 +7,10 @@
     "alwaysStrict": true
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/app/.e2e/api/Congress/server.spec.ts"
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
 }

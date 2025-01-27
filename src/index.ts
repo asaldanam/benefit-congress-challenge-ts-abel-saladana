@@ -1,5 +1,5 @@
-import {createServer} from "./server";
+import { createServer } from './app/server';
 
 createServer(() => {
-    console.info(`API is running on 5050`)
-})
+    console.info(`API is running on 5050`);
+});
